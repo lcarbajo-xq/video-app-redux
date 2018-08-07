@@ -112,7 +112,7 @@ class VideoPlayer extends Component {
 
 function mapStateToProps(state, props) {
   return {
-    media: state.get('data').get('entities').get('media').get(mediaId)
+    media: state.get('data').get('entities').get('media').get(props.id)
   }
 }
 
