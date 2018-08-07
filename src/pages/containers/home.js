@@ -7,23 +7,31 @@ import Modal from '../../widgets/components/modal';
 import HandleError from '../../error/containers/handle-error';
 import VideoPlayer from '../../player/containers/video-player';
 import { connect } from 'react-redux';
+import { List as list} from 'immutable';
 
 
 class Home extends Component {
-	state = {
-		modalVisible: false,
-	}
+	// state = {
+	// 	modalVisible: false,
+	// }
 	handleOpenModal = (media) => {
-		this.setState({
-			modalVisible: true,
-			media:  media
-		})
+	// 	this.setState({
+	// 		modalVisible: true,
+	// 		media:  media
+	// 	})
+	// }
+    this.props.dispatch({
+      type: 'OPEN_MODAL',
+      payload: {
+        mediaId: id
+      }
+    })
 	}
 	handleCloseModal = (event) => {
-		this.setState({
-			modalVisible: false,
-		})
-	}
+		this.props.dispatch({
+      type: 'CLOSE_MODAL'
+    })
+  }
 
 	render() {
 			return (
@@ -35,13 +43,15 @@ class Home extends Component {
 								handleOpenModal={this.handleOpenModal}
 								search={this.props.search}/>
 							{
-								this.state.modalVisible &&
+								this.props.modal.get('visibility') &&
 								<ModalContainer>
 									<Modal handleClick={this.handleCloseModal}>
 										<VideoPlayer
 											autoPlay
-											src={this.state.media.src}
-											title={this.state.media.title}/>
+											id={this.props.modal.get('mediaId')}
+											// src={this.state.media.src}
+											// title={this.state.media.title}
+											/>
 									</Modal>
 								</ModalContainer>
 							}
@@ -50,10 +60,35 @@ class Home extends Component {
 			)
 		}
 	}
-function mapStateToProps (state, props) {
-	return {
-		categories: state.data.categories,
-		search: state.search
+// function mapStateToProps(state, props) {
+// 	const categories = state.data.categories.map((categoryId) => {
+// 		return state.data.entities.categories[categoryId];
+// 	})
+// 	return {
+// 		categories: categories,
+// 		search: state.data.search
+// 	}
+// }
+// export default connect(mapStateToProps)(Home)
+
+
+function mapStateToProps(state, props) {
+	const categories = state.get('data').get('categories').map((categoryId) => {
+  	return state.get('data').get('entities').get('categories').get(categoryId)
+	})
+	let searchResults = list()
+	const search = state.get('data').get('search')
+	if (search) {
+		const mediaList = state.get('data').get('entities').get('media')
+		searchResults = mediaList.filter((item) => {
+			return item.get('author').toLowerCase().includes(search.toLowerCase())
+		}).toList();
 	}
+  return {
+    categories,
+    search: searchResults,
+		modal: state.get('modal')
+  }
 }
-export default connect(mapStateToProps)(Home);
+
+export default connect(mapStateToProps)(Home)
