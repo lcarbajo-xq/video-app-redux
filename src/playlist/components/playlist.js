@@ -9,8 +9,11 @@ function Playlist(props) {
 
       {
         props.playlist.map((mediaId) => {
-          return <MediaContainer id={mediaId} key={mediaId}
-          openModal={props.handleOpenModal}/>
+          return <MediaContainer
+                    openModal={props.handleOpenModal}
+                    id={mediaId}
+                    key={mediaId}
+                  />
         })
       }
     </div>

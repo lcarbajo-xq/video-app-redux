@@ -1,5 +1,4 @@
 import { fromJS } from 'immutable';
-import schema from '../schemas/index';
 
 // console.log(data);
 const initialState = fromJS({
@@ -9,17 +8,31 @@ const initialState = fromJS({
 
 
 function modal(state = initialState, action) {
-  switch (action.tyoe) {
+  switch (action.type) {
     case 'OPEN_MODAL':
       return state.merge({
-                          visibility: true,
-                          mediaId: action.payload.mediaId,
-                          })
+        visibility: true,
+        mediaId: action.payload.mediaId,
+      })
     case 'CLOSE_MODAL':
-      return state
+      return state.set('visibility', false)
     default:
-      return state
+    return state
   }
 }
+
+//
+// function modal(state = initialState, action) {
+//   switch(action.type) {
+//     case 'OPEN_MODAL':
+//       return state.merge({
+//         visibility: true,
+//         mediaId: action.payload.mediaId,
+//       })
+//     case 'CLOSE_MODAL':
+//       return state.set('visibility', false)
+//     default:
+//       return state
+//   }
 
 export default modal;

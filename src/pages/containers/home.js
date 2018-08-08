@@ -14,20 +14,17 @@ class Home extends Component {
 	// state = {
 	// 	modalVisible: false,
 	// }
-	handleOpenModal = (media) => {
-	// 	this.setState({
-	// 		modalVisible: true,
-	// 		media:  media
-	// 	})
-	// }
+	handleOpenModal = (id) => {
+		console.log('DISPATCH')
     this.props.dispatch({
       type: 'OPEN_MODAL',
       payload: {
-        mediaId: id
+        mediaId: id,
       }
     })
 	}
 	handleCloseModal = (event) => {
+		console.log('LLEGUE')
 		this.props.dispatch({
       type: 'CLOSE_MODAL'
     })
@@ -60,17 +57,6 @@ class Home extends Component {
 			)
 		}
 	}
-// function mapStateToProps(state, props) {
-// 	const categories = state.data.categories.map((categoryId) => {
-// 		return state.data.entities.categories[categoryId];
-// 	})
-// 	return {
-// 		categories: categories,
-// 		search: state.data.search
-// 	}
-// }
-// export default connect(mapStateToProps)(Home)
-
 
 function mapStateToProps(state, props) {
 	const categories = state.get('data').get('categories').map((categoryId) => {
@@ -79,15 +65,15 @@ function mapStateToProps(state, props) {
 	let searchResults = list()
 	const search = state.get('data').get('search')
 	if (search) {
-		const mediaList = state.get('data').get('entities').get('media')
+		const mediaList = state.get('data').get('entities').get('media');
 		searchResults = mediaList.filter((item) => {
 			return item.get('author').toLowerCase().includes(search.toLowerCase())
 		}).toList();
 	}
   return {
-    categories,
+    categories: categories,
     search: searchResults,
-		modal: state.get('modal')
+		modal: state.get('modal'),
   }
 }
 
