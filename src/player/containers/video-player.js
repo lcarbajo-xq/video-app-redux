@@ -15,7 +15,7 @@ class VideoPlayer extends Component {
   state = {
     pause: true,
     duration: 0,
-    currentTime: 0,
+    currentVideoTime: 0,
     loading: false,
   }
   togglePlay = (event) => {
@@ -37,7 +37,7 @@ class VideoPlayer extends Component {
   handleTimeUpdate = event => {
     // console.log(this.video.currentTime)
     this.setState({
-      currentTime: this.video.currentTime
+      currentVideoTime: this.video.currentTime
     })
   }
   handleProgressChange = event => {
@@ -55,6 +55,9 @@ class VideoPlayer extends Component {
     })
   }
   handleVolumeChange = event => {
+    if (this.video.muted){
+      this.video.muted = !this.video.muted;
+    }
     this.video.volume = event.target.value;
   }
   handleVolumeClick = (event) => {
