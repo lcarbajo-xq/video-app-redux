@@ -1,7 +1,7 @@
 import React from 'react';
 import './video-player-controls.css';
 
-function VideoPlayerControls (props) {
+function VideoPlayerControls(props) {
   return (
     <div className="VideoPlayerControls">
       {props.children}
@@ -9,4 +9,4 @@ function VideoPlayerControls (props) {
   )
 }
 
-export default VideoPlayerControls;
+export default VideoPlayerControls

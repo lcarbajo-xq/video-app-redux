@@ -1,41 +1,48 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
 import Home from '../pages/containers/home';
+// import Playlist from './src/playlist/components/playlist';
 // import data from '../api.json';
-import { createStore } from 'redux';
+// console.log('Hola mundo!' )
+// import data from '../schemas/index.js';
+
 import { Provider } from 'react-redux';
+
+import { createStore, applyMiddleware } from 'redux';
 import reducer from '../reducers/index';
-import { Map as map} from 'immutable';
+import { Map as map } from 'immutable';
+import logger from 'redux-logger';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import thunk from 'redux-thunk';
 
-
-// console.log(data);
-// const initialState = {
-//   data: { // PARTE DE MANEJO DE DATOS
-//     entities: data.entities,
-//     categories: data.result.categories,
-//     search: [],
-//   }, //PARTE DE UI
-//   modal: {
-//     visibility: false,
-//     mediaId: null,
+// function logger ({ getState, dispatch}) {
+//   // return (metodo para despachar el siguiente middleware)
+//   return (next) => {
+//     return (action) => {
+//       console.log('Vamos a enviar esta accion', action)
+//       const value = next(action)
+//       console.log('Este es mi nuevo estado', getState().toJS())
+//       return value
+//     }
 //   }
 // }
-
 const store = createStore(
   reducer,
   map(),
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  composeWithDevTools (
+    applyMiddleware(logger, thunk))
 );
-
 
 // console.log(store.getState());
 
-//PROVIDER ES UN CONTENEDOR UTILIZADO PARA CREAR SUBCOMPONENTES Y MANDARLES UN STORE HEREDADO
+const homeContainer = document.getElementById('home-container')
 
-//ReactDOM render(que voy a renderizar, donde lo voy a renderizar)
-const homeContainer = document.getElementById('home-container');
-ReactDOM.render(
+// ReactDOM.render(que voy a renderizar, donde lo haré);
+// const holaMundo = <h1>hola Estudiante!</h1>;
+
+render(
   <Provider store={store}>
     <Home />
-  </Provider> ,
-  homeContainer);
+  </Provider>
+, homeContainer);

@@ -1,13 +1,12 @@
 import data from './data';
 import modal from './modal';
 
+// import { combineReducers } from 'redux';
 import { combineReducers } from 'redux-immutable';
 
-// import { combineReducers } from 'redux';
-
-const rootReducer = combineReducers({
+const rootReducer = combineReducers ({
   data,
-  modal,
+  modal
 })
 
 export default rootReducer;

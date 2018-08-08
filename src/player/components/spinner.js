@@ -1,4 +1,4 @@
-import React from 'React';
+import React from 'react';
 import './spinner.css';
 
 function Spinner(props) {
@@ -10,4 +10,4 @@ function Spinner(props) {
   )
 }
 
-export default Spinner;
+export default Spinner

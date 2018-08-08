@@ -14,7 +14,7 @@
           "id": "1"
         },
         {
-          "title": "Cómo optimzar",
+          "title": "Cómo optimzar la carga de un website",
           "author": "LeonidasEsteban",
           "type": "video",
           "cover": "./images/covers/optimizar.jpg",
@@ -143,3 +143,4 @@
     }
   ]
 }
+

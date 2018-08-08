@@ -6,17 +6,19 @@ class HandleError extends Component {
     handleError: false,
   }
   componentDidCatch(error, info) {
-    //Envia este error a un servicio como SENTRY
     this.setState({
       handleError: true,
     })
+    // envía este error a un servicio como Sentry
   }
   render() {
-      if(this.state.handleError) {
-        return <RegularError />
-      }
-      return this.props.children
+    if (this.state.handleError) {
+      return (
+        <RegularError />
+      )
     }
+    return this.props.children
+  }
 }
 
-export default HandleError;
+export default HandleError

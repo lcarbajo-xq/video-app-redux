@@ -1,73 +1,67 @@
 import React, { Component } from 'react';
-import Video from '../components/video';
 import VideoPlayerLayout from '../components/video-player-layout';
+import Video from '../components/video';
 import Title from '../components/title';
-import Timer from '../components/timer';
-import PlayOrPause from '../components/play-or-pause';
-import Controls from '../components/video-player-controls';
+import PlayPause from '../components/play-or-pause';
+import Timer from '../components/timer.js';
+import Controls from '../components/video-player-controls.js';
 import ProgressBar from '../components/progress-bar';
 import Spinner from '../components/spinner';
 import Volume from '../components/volume';
 import FullScreen from '../components/fullscreen';
 import { connect } from 'react-redux';
 
-
 class VideoPlayer extends Component {
   state = {
     pause: true,
     duration: 0,
-    currentVideoTime: 0,
-    silence: false
+    currentTime: 0,
+    loading: false,
   }
   togglePlay = (event) => {
     this.setState({
-      pause: !this.state.pause,
+      pause: !this.state.pause
     })
   }
   componentDidMount() {
     this.setState({
-      pause: !this.props.autoPlay,
+      pause: (!this.props.autoplay)
     })
   }
-  handleLoadedMetadata = (event) => {
+  handleLoadedMetadata = event => {
     this.video = event.target;
-    this.setState ({
-      duration: this.video.duration,
+    this.setState({
+      duration: this.video.duration
     });
   }
-  handleTimeUpdate = (event) => {
+  handleTimeUpdate = event => {
+    // console.log(this.video.currentTime)
     this.setState({
-      currentVideoTime: this.video.currentTime,
+      currentTime: this.video.currentTime
     })
   }
-  handleProgressChange = (event) => {
+  handleProgressChange = event => {
+    // event.target.value
     this.video.currentTime = event.target.value
   }
-  handleSeeking = (event) => {
+  handleSeeking = event => {
     this.setState({
       loading: true
     })
   }
-  handleSeeked = (event) => {
+  handleSeeked = event => {
     this.setState({
       loading: false
     })
   }
-  handleVolumeChange = (event) => {
+  handleVolumeChange = event => {
     this.video.volume = event.target.value;
-  }
-  handleFullScreenClick = (event) => {
-      if (!document.webkitIsFullScreen) {
-        this.player.webkitRequestFullScreen()
-      } else {
-        document.webkitExitFullscreen();
-      }
   }
   handleVolumeClick = (event) => {
       this.video.muted = !this.video.muted;
   }
-  setRef = (element) => {
-    this.player = element;
+  setRef = element => {
+    this.player = element
   }
   render(){
     return(
@@ -76,7 +70,7 @@ class VideoPlayer extends Component {
           <Title
             title={this.props.media.get('title')}/>
           <Controls>
-            <PlayOrPause
+            <PlayPause
               pause={this.state.pause}
               handleClick={this.togglePlay}/>
             <Timer
@@ -106,15 +100,13 @@ class VideoPlayer extends Component {
               src={this.props.media.get('src')}
               />
         </VideoPlayerLayout>
-    )
+        )
+    }
+}
+function mapStateToProps (state, props) {
+  return {
+    media: state.get('data').get('entities').get('media').get(props.id)
   }
 }
 
-function mapStateToProps(state, props) {
-    return {
-      media: state.get('data').get('entities').get('media').get(props.id)
-  }
-  console.log(media)
-}
-
-export default connect(mapStateToProps)(VideoPlayer);
+export default connect (mapStateToProps)(VideoPlayer);

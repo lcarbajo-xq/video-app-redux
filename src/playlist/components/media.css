@@ -13,10 +13,10 @@
 .Media-cover {
   transition: .3s;
   box-shadow: 0 0 5px rgba(0,0,0,.3);
+  height: 160px;
 }
 
 .Media-image {
-  max-height: 145px;
   object-fit: cover;
 }
 

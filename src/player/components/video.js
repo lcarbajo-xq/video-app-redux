@@ -7,36 +7,35 @@ class Video extends Component {
       this.video.play()
     } else {
       this.video.pause()
-    }//this.video.volume
+    }
   }
-  setRef = (element) => {
-    this.video = element;
-  }
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.pause !== this.props.pause) {
       this.togglePlay();
     }
+  }
+  setRef = element => {
+    this.video = element;
   }
   render() {
     const {
       handleLoadedMetadata,
       handleTimeUpdate,
       handleSeeking,
-      handleSeeked
+      handleSeeked,
     } = this.props;
 
     return (
       <div className="Video">
         <video
-          ref={this.setRef}
-          controls
-          autoPlay={this.props.autoPlay}
+          autoPlay={this.props.autoplay}
           src={this.props.src}
+          ref={this.setRef}
           onLoadedMetadata={handleLoadedMetadata}
           onTimeUpdate={handleTimeUpdate}
           onSeeking={handleSeeking}
           onSeeked={handleSeeked}
-          />
+        />
       </div>
     )
   }
